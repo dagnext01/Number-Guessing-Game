@@ -1,0 +1,204 @@
+CLASS DIAGRAM
+Java GUI Multilevel Number Guessing Game
+
+=====================================================================
+1. PLAYER CLASS
+=====================================================================
+
++------------------------------+
+|            Player            |
++------------------------------+
+| - playerName : String        |
+| - wins       : int           |
+| - losses     : int           |
+| - score      : int           |
++------------------------------+
+| + Player()                   |
+| + Player(name : String)      |
+| + addWin() : void            |
+| + addLoss() : void           |
+| + updateScore() : void       |
+| + getPlayerName() : String   |
++------------------------------+
+
+
+=====================================================================
+2. GAME CLASS
+=====================================================================
+
++-----------------------------------+
+|               Game                |
++-----------------------------------+
+| - secretNumber : int              |
+| - guessCount   : int              |
+| - maxGuesses   : int              |
+| - gameOver     : boolean          |
+| - currentLevel : Level            |
+| - player       : Player           |
++-----------------------------------+
+| + Game(level : Level)             |
+| + startNewGame() : void           |
+| + generateSecretNumber() : void   |
+| + checkGuess(guess : int) : String|
+| + getRemainingGuesses() : int     |
+| + isGameOver() : boolean          |
+| + resetGame() : void              |
+| + setLevel(level : Level) : void  |
++-----------------------------------+
+
+
+=====================================================================
+3. HINT GENERATOR CLASS
+=====================================================================
+
++---------------------------------------+
+|             HintGenerator             |
++---------------------------------------+
+|                                       |
++---------------------------------------+
+| + getDirectionHint(guess : int,       |
+|   secret : int) : String              |
+| + getIntervalHint(guess : int,        |
+|   secret : int, level : Level):String |
++---------------------------------------+
+
+
+=====================================================================
+4. AWARD SYSTEM CLASS
+=====================================================================
+
++----------------------------------+
+|           AwardSystem            |
++----------------------------------+
+|                                  |
++----------------------------------+
+| + getAwardMessage(guessCount:int)|
+|   : String                       |
++----------------------------------+
+
+
+=====================================================================
+5. LEVEL SUPERCLASS
+=====================================================================
+
++--------------------------------+
+|             Level              |
++--------------------------------+
+| - levelName   : String         |
+| - maxAttempts : int            |
++--------------------------------+
+| + Level()                      |
+| + Level(name : String,         |
+|   maxAttempts : int)           |
+| + getMaxAttempts() : int       |
+| + getLevelName() : String      |
+| + getHintStyle() : String      |
++--------------------------------+
+
+
+=====================================================================
+6. LEVEL SUBCLASSES
+=====================================================================
+
++------------------------+    +------------------------+    +------------------------+
+|       EasyLevel        |    |      MediumLevel       |    |       HardLevel        |
++------------------------+    +------------------------+    +------------------------+
+|                        |    |                        |    |                        |
++------------------------+    +------------------------+    +------------------------+
+| + EasyLevel()          |    | + MediumLevel()        |    | + HardLevel()          |
+| + getHintStyle()       |    | + getHintStyle()       |    | + getHintStyle()       |
+|   : String             |    |   : String             |    |   : String             |
++------------------------+    +------------------------+    +------------------------+
+
+Inheritance:
+EasyLevel   --------|> Level
+MediumLevel --------|> Level
+HardLevel   --------|> Level
+
+
+=====================================================================
+7. GAME GUI CLASS
+=====================================================================
+
++----------------------------------------+
+|                GameGUI                 |
++----------------------------------------+
+| - frame        : JFrame                |
+| - inputField   : JTextField            |
+| - guessButton  : JButton               |
+| - retryButton  : JButton               |
+| - newGameButton: JButton               |
+| - exitButton   : JButton               |
+| - levelBox     : JComboBox<String>     |
+| - hintLabel    : JLabel                |
+| - statusLabel  : JLabel                |
+| - attemptsLabel: JLabel                |
+| - game         : Game                  |
++----------------------------------------+
+| + GameGUI()                            |
+| + buildInterface() : void              |
+| + registerEvents() : void              |
+| + displayHint(msg : String) : void     |
+| + updateStatus() : void                |
+| + showWinnerDialog(msg : String) : void|
+| + showLoserDialog(msg : String) : void |
++----------------------------------------+
+
+
+=====================================================================
+8. RELATIONSHIPS BETWEEN CLASSES
+=====================================================================
+
+1. GameGUI -----> Game
+   The GUI sends user actions to the Game class.
+
+2. Game -----> Player
+   The Game class works with player information.
+
+3. Game -----> Level
+   The Game class depends on the selected difficulty level.
+
+4. Game -----> HintGenerator
+   The Game class uses HintGenerator to provide hints.
+
+5. Game -----> AwardSystem
+   The Game class uses AwardSystem to determine the winner reward.
+
+6. EasyLevel, MediumLevel, HardLevel ---|> Level
+   These classes inherit from the Level superclass.
+
+
+=====================================================================
+9. SIMPLE OVERALL UML VIEW
+=====================================================================
+
+                +-----------+
+                |  Player   |
+                +-----------+
+                      ^
+                      |
+                +-----------+
+                |   Game    | ------------------> +---------------+
+                +-----------+                     | HintGenerator |
+                      |                           +---------------+
+                      |
+                      | ------------------------> +--------------+
+                      |                           | AwardSystem  |
+                      |                           +--------------+
+                      |
+                      | ------------------------> +-----------+
+                      |                           |   Level   |
+                      |                           +-----------+
+                      |                                ^
+                      |                                |
+                      |              -----------------------------------------
+                      |              |                   |                    |
+                      |              |                   |                    |
+                      |         +-----------+       +-----------+       +-----------+
+                      |         | EasyLevel |       |MediumLevel|       | HardLevel |
+                      |         +-----------+       +-----------+       +-----------+
+                      |
+                      v
+                +-----------+
+                |  GameGUI  |
+                +-----------+
