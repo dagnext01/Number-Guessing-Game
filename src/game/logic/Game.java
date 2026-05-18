@@ -62,7 +62,7 @@ public class Game {
             if (player != null) {
                 player.addLoss();
             }
-            return directionHint + " No guesses left. You lost the game. The number was " + secretNumber + ".";
+            return directionHint + " You lost the game. The number was " + secretNumber + ".";
         }
 
         if (intervalHint == null || intervalHint.isBlank()) {

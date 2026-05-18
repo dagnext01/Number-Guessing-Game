@@ -25,7 +25,6 @@ public class GameGUI {
     private JTextField inputField;
     private JButton guessButton;
     private JButton retryButton;
-    private JButton newGameButton;
     private JButton exitButton;
     private JComboBox<String> levelBox;
     private JLabel hintLabel;
@@ -62,7 +61,6 @@ public class GameGUI {
         inputField = new JTextField();
         guessButton = new JButton("Guess ?");
         retryButton = new JButton("Retry <");
-        newGameButton = new JButton("New Game *");
         exitButton = new JButton("Exit X");
         hintLabel = new JLabel("Choose a level and guess a number between 1 and 100.");
         statusLabel = new JLabel("Game started.");
@@ -83,7 +81,6 @@ public class GameGUI {
         bottomPanel.setBackground(new Color(235, 244, 255));
         bottomPanel.add(guessButton);
         bottomPanel.add(retryButton);
-        bottomPanel.add(newGameButton);
         bottomPanel.add(exitButton);
 
         frame.add(topPanel, BorderLayout.NORTH);
@@ -102,16 +99,6 @@ public class GameGUI {
             guessButton.setEnabled(true);
             hintLabel.setText("Game reset. Try again.");
             statusLabel.setText("Retry started.");
-            updateStatus();
-        });
-        newGameButton.addActionListener(event -> {
-            game.setLevel(createLevel((String) levelBox.getSelectedItem()));
-            game.startNewGame();
-            inputField.setText("");
-            inputField.setEditable(true);
-            guessButton.setEnabled(true);
-            hintLabel.setText("New game started. Enter a guess from 1 to 100.");
-            statusLabel.setText("Fresh game ready.");
             updateStatus();
         });
         exitButton.addActionListener(event -> frame.dispose());
